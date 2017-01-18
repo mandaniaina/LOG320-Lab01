@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1484241984 source:c:\users\manda\documents\github\log320-lab01\log320lab1\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+

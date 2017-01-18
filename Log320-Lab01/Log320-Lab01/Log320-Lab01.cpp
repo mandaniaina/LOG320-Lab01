@@ -7,20 +7,29 @@
 #include <string>
 
 using namespace std;
+void annagramesProf(string dictionnaire[], string listeDeMot[])
+{
+	
+}
 
 int main()
 {
 	double b(15);
-	std::ifstream file("dict.txt");
-	std::string str;
-	int nbr(0);
-	while (std::getline(file, str))
+	ifstream file("dict.txt");
+	string str;
+	int cpt(0);
+	string dictionnaire[10000];
+	while (getline(file, str))
 	{
-		nbr++;
-		cout << "Mot numéro: " << nbr << " " << str << endl;
+		//cout << str;
+		dictionnaire[cpt++] = str;
+	}
+	for (string mot : dictionnaire)
+	{
+		cout << mot;
 	}
 	cin >> b;
+	delete cpt;
 	return 0;
-
 }
 
