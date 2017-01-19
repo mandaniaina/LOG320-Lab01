@@ -2,34 +2,58 @@
 //
 
 #include "stdafx.h"
+#include <vector>
 #include <iostream>
 #include <fstream>
 #include <string>
 
 using namespace std;
-void annagramesProf(string dictionnaire[], string listeDeMot[])
+void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	
+}
+void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
+{
+	cout << "\n \n \n" << "dictionnaire";
+	for(string mot: dictionnaire)
+	{
+		cout << "\n" << mot;
+	}
+	cout << "\n \n \n"<< "mots";
+	for (string mot : listeDeMot)
+	{
+		cout << "\n" << mot;
+	}
+	int a(0);
+	cin >> a;
 }
 
 int main()
 {
-	double b(15);
-	ifstream file("dict.txt");
+	double b(0);
+	ifstream dict("dict.txt");
+	ifstream mots("words.txt");
+
 	string str;
-	int cpt(0);
-	string dictionnaire[10000];
-	while (getline(file, str))
+	vector<string> dictionnaire;
+	vector<string> listeDeMots;
+
+	while (getline(dict, str))
 	{
-		//cout << str;
-		dictionnaire[cpt++] = str;
+		dictionnaire.push_back(str);
 	}
-	for (string mot : dictionnaire)
+	while (getline(mots, str))
 	{
-		cout << mot;
+		listeDeMots.push_back(str);
 	}
+
+	cout << "1 - prof\n2- notre";
 	cin >> b;
-	delete cpt;
+
+	if (b == 1)
+		annagramesProf(dictionnaire, listeDeMots);
+	if (b == 2)
+		annagrames(dictionnaire, listeDeMots);
 	return 0;
 }
 
