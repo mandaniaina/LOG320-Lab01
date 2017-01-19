@@ -9,12 +9,36 @@
 #include <algorithm>
 
 using namespace std;
+
 void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	
 }
+
+
 void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 {
+	vector<string> resutlats;
+	int nbAnnagrame(0);
+	int nbAnagrammesTotal(0);
+	string avantSort;
+	for (string mot : listeDeMot)
+	{
+		nbAnnagrame = 0;
+		for (string motduDict : dictionnaire)
+		{
+		}
+		resutlats.push_back("Il y a " + to_string(nbAnnagrame) + " anagrammes du mot " + mot);
+	}
+	for (string mot : resutlats)
+	{
+		cout << "\n" << mot;
+	}
+	resutlats.clear();
+	listeDeMot.clear();
+	dictionnaire.clear();
+	int a(0);
+	cin >> a;
 }
 void annagramesBase(vector<string> dictionnaire, vector<string> listeDeMot)
 {
@@ -27,6 +51,8 @@ void annagramesBase(vector<string> dictionnaire, vector<string> listeDeMot)
 		for (string motduDict : dictionnaire)
 		{
 			avantSort = mot;
+			mot.erase(remove_if(mot.begin(), mot.end(), isspace));
+			motduDict.erase(remove_if(motduDict.begin(), motduDict.end(), isspace));
 			std::sort(mot.begin(), mot.end());
 			std::sort(motduDict.begin(), motduDict.end());
 			if(mot == motduDict)
