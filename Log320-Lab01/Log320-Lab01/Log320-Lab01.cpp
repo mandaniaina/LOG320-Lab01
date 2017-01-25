@@ -48,6 +48,7 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	int b(15);
 	int total = 0;
+	vector<string> resutlats;
 	auto t1 = std::chrono::high_resolution_clock::now();
 
 	for each(string mot in listeDeMot)
@@ -58,21 +59,25 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 			if (estAnagrammeProf(mot, dict))
 			{
 				i++;
+				total += 1;
 			}
 
 		}
-		cout << "Il y a " << i << " anagrammes du mot " << mot;
-		cout << "\n";
-		total += i;
-
+		resutlats.push_back("Il y a " + to_string(i) + " anagrammes du mot " + mot);
 	}
 
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> fp_ms = t2 - t1;
 
-	cout << "Il y a un total de " << total << " anagrammes";
+	for (string mot : resutlats)
+	{
+		cout << "\n" << mot;
+	}
+
+	cout << "\n" <<"Il y a un total de " << total << " anagrammes";
 	cout << "\n";
 	cout << "Temps d'execution: " << fp_ms.count() / 1000 << " sec";
+	resutlats.clear();
 	listeDeMot.clear();
 	dictionnaire.clear();
 
