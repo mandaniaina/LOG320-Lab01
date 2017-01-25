@@ -1,7 +1,9 @@
-﻿  stdafx.cpp
-  Log320-Lab01.cpp
-  Génération de code en cours
-  All 353 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Fin de la génération du code
-  Log320-Lab01.vcxproj -> C:\Users\Manda\Documents\GitHub\LOG320-Lab01\Log320-Lab01\Release\Log320-Lab01.exe
-  Log320-Lab01.vcxproj -> C:\Users\Manda\Documents\GitHub\LOG320-Lab01\Log320-Lab01\Release\Log320-Lab01.pdb (Full PDB)
+﻿  Log320-Lab01.cpp
+Log320-Lab01.cpp(21): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  2 of 364 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    23 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Log320-Lab01.vcxproj -> C:\Users\Samuel\Documents\GitHub\LOG320-Lab01\Log320-Lab01\Release\Log320-Lab01.exe
+  Log320-Lab01.vcxproj -> C:\Users\Samuel\Documents\GitHub\LOG320-Lab01\Log320-Lab01\Release\Log320-Lab01.pdb (Full PDB)

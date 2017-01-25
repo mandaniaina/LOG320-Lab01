@@ -9,10 +9,70 @@
 #include <ctime>
 
 using namespace std;
+//&& chaine1.length() >= chaine2.length() 
+
+bool estAnagrammeProf(string chaine1, string chaine2)
+{
+	int i = 0;
+	for each (char c in chaine1)
+	{
+		bool trouve = false;
+		i = 0;
+		while (trouve == false && i<chaine2.length())
+		{
+			if (chaine2[i]==32) 
+			{
+				chaine2.erase(chaine2.begin() + i);
+			}
+			if (c == chaine2[i])
+			{
+				chaine2.erase(chaine2.begin()+i);
+				trouve = true;
+			}
+			i++;
+		}
+		if (trouve == false)
+		{
+			return false;
+		}
+	}
+	if (!chaine2.empty())
+	{
+		return false;
+	}
+	return true;
+}
 
 void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 {
-	
+	int b(15);
+	int total=0;
+	clock_t debut;
+	float tempsTotal;
+	debut = clock();
+	for each(string mot in listeDeMot)
+	{
+		int i = 0;
+		for each(string dict in dictionnaire)
+		{
+			if (estAnagrammeProf(mot, dict))
+			{
+				i++;
+			}
+
+		}
+		cout << "Il y a " << i << " anagrammes du mot " << mot;
+		cout << "\n";
+		total += i;
+
+	}
+	tempsTotal = (clock() - debut) / float(CLOCKS_PER_SEC);
+	cout << "Il y a un total de " << total << " anagrammes";
+	cout << "\n";
+	cout << "Temps d'execution: " << tempsTotal << " secondes";
+	listeDeMot.clear();
+	dictionnaire.clear();
+	cin >> b;
 }
 
 bool estAnagramme(string s1, string s2)
