@@ -84,11 +84,11 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 	cin >> b;
 }
 
-bool estAnagramme(string s1, string s2)
+vector<int> encode(string s)
 {
 	vector<int> lettres(36);
 	int pos(0);
-	for (char& c : s1) {
+	for (char& c : s) {
 		if (48 <= c && c <= 57)//nombres
 		{
 			pos = c - 22;
@@ -99,64 +99,51 @@ bool estAnagramme(string s1, string s2)
 			pos = c - 97;
 			lettres[pos] = lettres[pos] + 1;
 		}
-		else if (c != 32)
-			cout << "ERREUR caractere non supporte " << c << " no: " << static_cast<int>(c) << "dans le mot" << s1 << "du dictionnaire\n";
 	}
-	for (char& c : s2) {
-
-		if (48 <= c && c <= 57)//nombres
-		{
-			pos = c - 22;
-			if (lettres[pos] == 0)
-				return false;
-			lettres[pos] = lettres[pos] - 1;
-		}
-		else if (97 <= c && c <= 122)//lettres
-		{
-			pos = c - 97;
-			if (lettres[pos] == 0)
-				return false;
-			lettres[pos] = lettres[pos] - 1;
-		}
-		else if (c != 32)
-			cout << "ERREUR caractere non supporte " << c << " no: " << static_cast<int>(c) << "dans le mot" << s2 << "de la banque de mot\n";
-	}
-	for (int i : lettres)
-	{
-		if (i != 0)
-			return false;
-	}
-	return true;
+	return lettres;
 }
 
 void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	vector<string> resutlats;
+	vector<vector<int>> dict;
 	int nbAnnagrame(0);
 	int nbAnagrammesTotal(0);
+	vector<int> mot;
+
 	auto t1 = std::chrono::high_resolution_clock::now();
 
-	for (string mot : listeDeMot)
+	for (string s : dictionnaire)
 	{
+		dict.push_back(encode(s));
+	}
+	
+	for (string motDeLaListe : listeDeMot)
+	{
+		mot = encode(motDeLaListe);
 		nbAnnagrame = 0;
-		for (string motduDict : dictionnaire)
+		for (vector<int> d : dict)
 		{
-			if (estAnagramme(mot, motduDict))
+			if (mot == d)
 			{
 				nbAnnagrame++;
-				nbAnagrammesTotal++;
 			}
 		}
-		resutlats.push_back("Il y a " + to_string(nbAnnagrame) + " anagrammes du mot " + mot);
+		nbAnagrammesTotal += nbAnnagrame;
+		resutlats.push_back("Il y a " + to_string(nbAnnagrame) + " anagrammes du mot " + motDeLaListe);
 	}
 
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> fp_ms = t2 - t1;
+	
 	for (string mot : resutlats)
 	{
 		cout << "\n" << mot;
 	}
-	cout << "\n" << "Il y a un total de " << nbAnagrammesTotal << " anagrammes\n" << "Temps d'execution: " << fp_ms.count() / 1000 << " secondes";
+	cout << "\n" << "Il y a un total de " << nbAnagrammesTotal << " anagrammes";
+	cout << "\n";
+	cout << "Temps d'execution: " << fp_ms.count() / 1000 << " sec";
+	mot.clear();
 	resutlats.clear();
 	listeDeMot.clear();
 	dictionnaire.clear();
