@@ -7,7 +7,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ctime>
 #include <chrono>
 #include <map>
 
@@ -88,7 +87,7 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	vector<string> resutlats;
-	multimap<int, vector<int>> map;
+	map<int, multimap<int, vector<int>>> TheMapV2;
 	int nbAnnagrame(0);
 	int nbAnagrammesTotal(0);
 	
@@ -99,22 +98,32 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 	{
 		vector<int> lettres(36);
 		int pos(0);
+		int sum(0);
 		int nbChar(0);
 		for (char& c : s) {
 			if (48 <= c && c <= 57)//nombres
 			{
-				pos = c - 22;
+				sum+= pos = c - 22;
 				lettres[pos]++;
 				nbChar++;
 			}
 			else if (97 <= c && c <= 122)//lettres
 			{
-				pos = c - 97;
+				sum += pos = c - 97;
 				lettres[pos]++;
 				nbChar++;
 			}
 		}
-		map.insert(make_pair(nbChar, lettres));
+		if (TheMapV2.find(sum) == TheMapV2.end()) {
+			multimap<int, vector<int>> theMap;
+			theMap.insert(make_pair(nbChar, lettres));
+			TheMapV2.insert(make_pair(sum, theMap));
+		}
+		else {
+			(TheMapV2.find(sum)->second).insert(make_pair(nbChar, lettres));//////////////////////////verifier
+
+		}
+
 	}
 	
 	for (string motDeLaListe : listeDeMot)
@@ -122,25 +131,27 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 		vector<int> mot(36);
 		int pos(0);
 		int nbChar(0);
+		int sum(0);
 		for (char& c : motDeLaListe) {
 			if (48 <= c && c <= 57)//nombres
 			{
-				pos = c - 22;
+				sum+=pos = c - 22;
 				mot[pos]++;
 				nbChar++;
 			}
 			else if (97 <= c && c <= 122)//lettres
 			{
-				pos = c - 97;
+				sum+=pos = c - 97;
 				mot[pos]++;
 				nbChar++;
 			}
 		}
 		nbAnnagrame = 0;
 
+		multimap<int, vector<int>> theMap = TheMapV2.find(sum)->second;
 
 		std::pair <std::multimap<int, vector<int>>::iterator, std::multimap<int, vector<int>>::iterator> ret;
-		ret = map.equal_range(nbChar);
+		ret = theMap.equal_range(nbChar);
 
 		for (std::multimap<int, vector<int>>::iterator it = ret.first; it != ret.second; ++it)
 		{
@@ -163,7 +174,7 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 	cout << "\n" << "Il y a un total de " << nbAnagrammesTotal << " anagrammes";
 	cout << "\n";
 	cout << "Temps d'execution: " << fp_ms.count() / 1000 << " sec";
-	map.clear();
+	TheMapV2.clear();
 	resutlats.clear();
 	listeDeMot.clear();
 	dictionnaire.clear();
