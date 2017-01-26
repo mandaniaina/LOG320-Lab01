@@ -9,6 +9,7 @@
 #include <string>
 #include <ctime>
 #include <chrono>
+#include <map>
 
 using namespace std;
 
@@ -84,47 +85,65 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 	cin >> b;
 }
 
-vector<int> encode(string s)
-{
-	vector<int> lettres(36);
-	int pos(0);
-	for (char& c : s) {
-		if (48 <= c && c <= 57)//nombres
-		{
-			pos = c - 22;
-			lettres[pos] = lettres[pos] + 1;
-		}
-		else if (97 <= c && c <= 122)//lettres
-		{
-			pos = c - 97;
-			lettres[pos] = lettres[pos] + 1;
-		}
-	}
-	return lettres;
-}
-
 void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	vector<string> resutlats;
-	vector<vector<int>> dict;
+	multimap<int, vector<int>> map;
 	int nbAnnagrame(0);
 	int nbAnagrammesTotal(0);
-	vector<int> mot;
+	vector<int> mot(36);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 
 	for (string s : dictionnaire)
 	{
-		dict.push_back(encode(s));
+		vector<int> lettres(36);
+		int pos(0);
+		int nbChar(0);
+		for (char& c : s) {
+			if (48 <= c && c <= 57)//nombres
+			{
+				pos = c - 22;
+				lettres[pos]++;
+				nbChar++;
+			}
+			else if (97 <= c && c <= 122)//lettres
+			{
+				pos = c - 97;
+				lettres[pos]++;
+				nbChar++;
+			}
+		}
+		map.insert(make_pair(s.length(), lettres));
 	}
 	
 	for (string motDeLaListe : listeDeMot)
 	{
-		mot = encode(motDeLaListe);
+		int pos(0);
+		int nbChar(0);
+		for (char& c : motDeLaListe) {
+			if (48 <= c && c <= 57)//nombres
+			{
+				pos = c - 22;
+				mot[pos]++;
+				nbChar++;
+			}
+			else if (97 <= c && c <= 122)//lettres
+			{
+				pos = c - 97;
+				mot[pos]++;
+				nbChar++;
+			}
+		}
 		nbAnnagrame = 0;
-		for (vector<int> d : dict)
+
+
+		std::pair <std::multimap<int, vector<int>>::iterator, std::multimap<int, vector<int>>::iterator> ret;
+		ret = map.equal_range(motDeLaListe.length());
+
+		for (std::multimap<int, vector<int>>::iterator it = ret.first; it != ret.second; ++it)
 		{
-			if (mot == d)
+			if (mot == it->second)
 			{
 				nbAnnagrame++;
 			}
@@ -144,6 +163,7 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 	cout << "\n";
 	cout << "Temps d'execution: " << fp_ms.count() / 1000 << " sec";
 	mot.clear();
+	map.clear();
 	resutlats.clear();
 	listeDeMot.clear();
 	dictionnaire.clear();
