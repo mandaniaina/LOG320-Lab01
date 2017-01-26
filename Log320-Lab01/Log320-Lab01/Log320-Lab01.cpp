@@ -114,7 +114,7 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 				nbChar++;
 			}
 		}
-		map.insert(make_pair(s.length(), lettres));
+		map.insert(make_pair(nbChar, lettres));
 	}
 	
 	for (string motDeLaListe : listeDeMot)
