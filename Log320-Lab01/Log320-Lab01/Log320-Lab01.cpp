@@ -66,8 +66,8 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 		resutlats.push_back("Il y a " + to_string(i) + " anagrammes du mot " + mot);
 	}
 
-	auto t2 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> fp_ms = t2 - t1;
+	auto t2 = chrono::high_resolution_clock::now();
+	chrono::duration<double, milli> fp_ms = t2 - t1;
 
 	for (string mot : resutlats)
 	{
@@ -87,94 +87,70 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	vector<string> resutlats;
-	map<int, multimap<int, vector<int>>> TheMapV2;
+	map<vector<int>, int> TheMapV4;
 	int nbAnnagrame(0);
 	int nbAnagrammesTotal(0);
 	
 
-	auto t1 = std::chrono::high_resolution_clock::now();
+	auto t1 = chrono::high_resolution_clock::now();
 
-	for (string s : dictionnaire)
+	for(string s : dictionnaire)
 	{
 		vector<int> lettres(36);
 		int pos;
-		int sum(0);
-		int nbChar(0);
 		for (char& c : s) {
 			if (48 <= c && c <= 57)//nombres
 			{
-				sum+= pos = c - 22;
+				pos = c - 22;
 				lettres[pos]++;
-				nbChar++;
 			}
 			else if (97 <= c && c <= 122)//lettres
 			{
-				sum += pos = c - 97;
+				pos = c - 97;
 				lettres[pos]++;
-				nbChar++;
 			}
 		}
-		if (TheMapV2.find(sum) == TheMapV2.end()) {
-			multimap<int, vector<int>> theMap;
-			theMap.insert(make_pair(nbChar, lettres));
-			TheMapV2.insert(make_pair(sum, theMap));
-		}
-		else {
-			(TheMapV2.find(sum)->second).insert(make_pair(nbChar, lettres));//////////////////////////verifier
-
-		}
+		map<vector<int>, int>::iterator it = TheMapV4.find(lettres);
+		if (it != TheMapV4.end())
+			it->second++;
+		else
+			TheMapV4.insert(make_pair(lettres, 1));
 
 	}
 	
-	for (string motDeLaListe : listeDeMot)
+	for (string motDeLaListe: listeDeMot)
 	{
 		vector<int> mot(36);
 		int pos(0);
-		int nbChar(0);
-		int sum(0);
 		for (char& c : motDeLaListe) {
 			if (48 <= c && c <= 57)//nombres
 			{
-				sum+=pos = c - 22;
+				pos = c - 22;
 				mot[pos]++;
-				nbChar++;
 			}
 			else if (97 <= c && c <= 122)//lettres
 			{
-				sum+=pos = c - 97;
+				pos = c - 97;
 				mot[pos]++;
-				nbChar++;
 			}
 		}
-		nbAnnagrame = 0;
 
-		multimap<int, vector<int>> theMap = TheMapV2.find(sum)->second;
+		nbAnagrammesTotal += nbAnnagrame = TheMapV4.find(mot)->second;
 
-		std::pair <std::multimap<int, vector<int>>::iterator, std::multimap<int, vector<int>>::iterator> ret;
-		ret = theMap.equal_range(nbChar);
-
-		for (std::multimap<int, vector<int>>::iterator it = ret.first; it != ret.second; ++it)
-		{
-			if (mot == it->second)
-			{
-				nbAnnagrame++;
-			}
-		}
-		nbAnagrammesTotal += nbAnnagrame;
 		resutlats.push_back("Il y a " + to_string(nbAnnagrame) + " anagrammes du mot " + motDeLaListe);
 	}
 
-	auto t2 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> fp_ms = t2 - t1;
+	auto t2 = chrono::high_resolution_clock::now();
+	chrono::duration<double, milli> fp_ms = t2 - t1;
 	
-	for (string mot : resutlats)
+	for(string mot: resutlats)
 	{
 		cout << "\n" << mot;
 	}
 	cout << "\n" << "Il y a un total de " << nbAnagrammesTotal << " anagrammes";
 	cout << "\n";
 	cout << "Temps d'execution: " << fp_ms.count() / 1000 << " sec";
-	TheMapV2.clear();
+	TheMapV4.clear();
 	resutlats.clear();
 	listeDeMot.clear();
 	dictionnaire.clear();
