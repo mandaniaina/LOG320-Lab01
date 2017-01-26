@@ -85,13 +85,32 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 	cin >> b;
 }
 
+vector<int> encode(string s)
+{
+	vector<int> lettres(36);
+	int pos(0);
+	for (char& c : s) {
+		if (48 <= c && c <= 57)//nombres
+		{
+			pos = c - 22;
+			lettres[pos] = lettres[pos] + 1;
+		}
+		else if (97 <= c && c <= 122)//lettres
+		{
+			pos = c - 97;
+			lettres[pos] = lettres[pos] + 1;
+		}
+	}
+	return lettres;
+}
+
 void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 {
 	vector<string> resutlats;
 	multimap<int, vector<int>> map;
 	int nbAnnagrame(0);
 	int nbAnagrammesTotal(0);
-	vector<int> mot(36);
+	vector<int> mot;
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 
@@ -119,22 +138,7 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 	
 	for (string motDeLaListe : listeDeMot)
 	{
-		int pos(0);
-		int nbChar(0);
-		for (char& c : motDeLaListe) {
-			if (48 <= c && c <= 57)//nombres
-			{
-				pos = c - 22;
-				mot[pos]++;
-				nbChar++;
-			}
-			else if (97 <= c && c <= 122)//lettres
-			{
-				pos = c - 97;
-				mot[pos]++;
-				nbChar++;
-			}
-		}
+		mot = encode(motDeLaListe);
 		nbAnnagrame = 0;
 
 
