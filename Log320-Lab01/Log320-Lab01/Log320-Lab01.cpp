@@ -49,7 +49,7 @@ void annagramesProf(vector<string> dictionnaire, vector<string> listeDeMot)
 	int b(15);
 	int total = 0;
 	vector<string> resutlats;
-	auto t1 = std::chrono::high_resolution_clock::now();
+	auto t1 = chrono::high_resolution_clock::now();
 
 	for each(string mot in listeDeMot)
 	{
@@ -97,7 +97,7 @@ void annagrames(vector<string> dictionnaire, vector<string> listeDeMot)
 	for (string s : dictionnaire)
 	{
 		vector<int> lettres(36);
-		int pos(0);
+		int pos;
 		int sum(0);
 		int nbChar(0);
 		for (char& c : s) {
